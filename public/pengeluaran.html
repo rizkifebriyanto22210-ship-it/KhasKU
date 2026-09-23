@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pengeluaran - KhasKU</title>
+
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background: #f3eadc;
+
+            color: #333;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+
+            background: #345342;
+
+            color: white;
+
+            padding: 18px 40px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.15);
+
+        }
+
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+        }
+
+
+        .logo-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            background: #dc2626;
+
+            color: white;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border-radius: 12px;
+
+        }
+
+
+        .back {
+
+            color: white;
+
+            text-decoration: none;
+
+            background:
+                rgba(255, 255, 255, 0.15);
+
+            padding: 10px 18px;
+
+            border-radius: 10px;
+
+            transition: 0.3s;
+
+        }
+
+
+        .back:hover {
+
+            background:
+                rgba(255, 255, 255, 0.3);
+
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        main {
+
+            max-width: 1000px;
+
+            margin: auto;
+
+            padding: 40px 20px;
+
+        }
+
+
+        /* =========================
+           TITLE
+        ========================= */
+
+        .title {
+
+            background: #fffaf2;
+
+            padding: 30px;
+
+            border-radius: 20px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.10);
+
+        }
+
+
+        .title h1 {
+
+            color: #345342;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .title p {
+
+            color: #666;
+
+        }
+
+
+        /* =========================
+           TOTAL PENGELUARAN
+        ========================= */
+
+        .saldo {
+
+            background: #345342;
+
+            color: white;
+
+            padding: 30px;
+
+            border-radius: 20px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.15);
+
+        }
+
+
+        .saldo-title {
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .saldo-value {
+
+            font-size: 35px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-card {
+
+            background: #fffaf2;
+
+            padding: 30px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.10);
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .form-card h2 {
+
+            color: #345342;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .form-group {
+
+            margin-bottom: 20px;
+
+        }
+
+
+        label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #345342;
+
+            font-weight: bold;
+
+        }
+
+
+        input,
+        textarea {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border: 2px solid #e4d6c2;
+
+            border-radius: 10px;
+
+            font-size: 15px;
+
+            outline: none;
+
+        }
+
+
+        input:focus,
+        textarea:focus {
+
+            border-color: #dc2626;
+
+        }
+
+
+        textarea {
+
+            min-height: 100px;
+
+            resize: vertical;
+
+        }
+
+
+        button {
+
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: #dc2626;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+        }
+
+
+        button:hover {
+
+            background: #b91c1c;
+
+            transform: translateY(-2px);
+
+        }
+
+
+        /* =========================
+           AKSES TERBATAS
+        ========================= */
+
+        .access-denied {
+
+            background: #fffaf2;
+
+            padding: 30px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.10);
+
+            margin-bottom: 25px;
+
+            text-align: center;
+
+            border-left: 6px solid #dc2626;
+
+        }
+
+
+        .access-icon {
+
+            font-size: 45px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .access-denied h2 {
+
+            color: #345342;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .access-denied p {
+
+            color: #666;
+
+            line-height: 1.6;
+
+        }
+
+
+        .role-info {
+
+            display: inline-block;
+
+            margin-top: 15px;
+
+            padding: 8px 15px;
+
+            background: #f3eadc;
+
+            color: #345342;
+
+            border-radius: 20px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================
+           RIWAYAT
+        ========================= */
+
+        .history {
+
+            background: #fffaf2;
+
+            padding: 30px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.10);
+
+        }
+
+
+        .history h2 {
+
+            color: #345342;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .table-container {
+
+            overflow-x: auto;
+
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+        }
+
+
+        th {
+
+            background: #345342;
+
+            color: white;
+
+            padding: 14px;
+
+            text-align: left;
+
+        }
+
+
+        td {
+
+            padding: 14px;
+
+            border-bottom:
+                1px solid #e4d6c2;
+
+        }
+
+
+        tr:hover {
+
+            background: #f8efdf;
+
+        }
+
+
+        .nominal {
+
+            color: #dc2626;
+
+            font-weight: bold;
+
+        }
+
+
+        .kosong {
+
+            text-align: center;
+
+            color: #777;
+
+            padding: 30px;
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            header {
+
+                padding: 15px 20px;
+
+            }
+
+
+            .logo {
+
+                font-size: 20px;
+
+            }
+
+
+            main {
+
+                padding: 25px 15px;
+
+            }
+
+
+            .form-card,
+            .history,
+            .title,
+            .saldo,
+            .access-denied {
+
+                padding: 22px;
+
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                K
+            </div>
+
+            <span>KhasKU</span>
+
+        </div>
+
+
+        <a href="/dashboard.html" class="back">
+
+            ← Dashboard
+
+        </a>
+
+    </header>
+
+
+    <!-- MAIN -->
+
+    <main>
+
+
+        <!-- JUDUL -->
+
+        <div class="title">
+
+            <h1>
+                💸 Pengeluaran Kas
+            </h1>
+
+            <p>
+                Kelola penggunaan uang kas
+                kelas dengan mudah.
+            </p>
+
+        </div>
+
+
+        <!-- TOTAL PENGELUARAN -->
+
+        <div class="saldo">
+
+            <div class="saldo-title">
+
+                💵 Total Pengeluaran
+
+            </div>
+
+
+            <div class="saldo-value" id="total">
+
+                Rp 0
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             AREA AKSES
+        ========================= -->
+
+        <div id="areaAkses">
+
+
+            <!-- FORM ADMIN / BENDAHARA -->
+
+            <div class="form-card" id="formPengeluaran" style="display: none;">
+
+                <h2>
+                    ➖ Tambah Pengeluaran
+                </h2>
+
+
+                <form action="/api/pengeluaran" method="POST">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Nama Pengeluaran
+                        </label>
+
+                        <input type="text" name="nama" placeholder="Contoh: Beli spidol" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Nominal
+                        </label>
+
+                        <input type="number" name="nominal" placeholder="Contoh: 15000" min="1" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Tanggal
+                        </label>
+
+                        <input type="date" name="tanggal" required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Keterangan
+                        </label>
+
+                        <textarea name="keterangan" placeholder="Contoh: Membeli perlengkapan kelas"></textarea>
+
+                    </div>
+
+
+                    <button type="submit">
+
+                        💸 Simpan Pengeluaran
+
+                    </button>
+
+
+                </form>
+
+            </div>
+
+
+            <!-- AKSES ANGGOTA -->
+
+            <div class="access-denied" id="aksesAnggota" style="display: none;">
+
+                <div class="access-icon">
+                    🔒
+                </div>
+
+                <h2>
+                    Akses Terbatas
+                </h2>
+
+                <p>
+                    Kamu dapat melihat total dan
+                    riwayat pengeluaran,
+                    tetapi tidak dapat menambahkan
+                    pengeluaran.
+                </p>
+
+                <div class="role-info">
+                    👤 Role: Anggota
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =========================
+             RIWAYAT
+        ========================= -->
+
+        <div class="history">
+
+            <h2>
+                📋 Riwayat Pengeluaran
+            </h2>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Nama
+                            </th>
+
+                            <th>
+                                Nominal
+                            </th>
+
+                            <th>
+                                Tanggal
+                            </th>
+
+                            <th>
+                                Keterangan
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="riwayat">
+
+                        <tr>
+
+                            <td colspan="4" class="kosong">
+
+                                Memuat data...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+
+        // ========================================
+        // CEK LOGIN DAN ROLE
+        // ========================================
+
+        async function cekRole() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/auth/me"
+                    );
+
+
+                // Belum login
+
+                if (!response.ok) {
+
+                    window.location.href = "/";
+
+                    return;
+
+                }
+
+
+                const user =
+                    await response.json();
+
+
+                console.log(
+                    "User login:",
+                    user
+                );
+
+
+                // =========================
+                // ADMIN & BENDAHARA
+                // =========================
+
+                if (
+                    user.role === "admin" ||
+                    user.role === "bendahara"
+                ) {
+
+                    document.getElementById(
+                        "formPengeluaran"
+                    ).style.display = "block";
+
+
+                    document.getElementById(
+                        "aksesAnggota"
+                    ).style.display = "none";
+
+                }
+
+
+                // =========================
+                // ANGGOTA
+                // =========================
+
+                else {
+
+                    document.getElementById(
+                        "formPengeluaran"
+                    ).style.display = "none";
+
+
+                    document.getElementById(
+                        "aksesAnggota"
+                    ).style.display = "block";
+
+                }
+
+
+            } catch (error) {
+
+                console.log(
+                    "Gagal mengecek role:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // ========================================
+        // TAMPILKAN PENGELUARAN
+        // ========================================
+
+        async function tampilkanPengeluaran() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/pengeluaran"
+                    );
+
+
+                const hasil =
+                    await response.json();
+
+
+                // Kalau gagal mengambil data
+
+                if (!response.ok) {
+
+                    console.log(
+                        "Gagal mengambil pengeluaran:",
+                        hasil.message
+                    );
+
+                    return;
+
+                }
+
+
+                // =========================
+                // TOTAL PENGELUARAN
+                // =========================
+
+                document.getElementById(
+                    "total"
+                ).textContent =
+                    formatRupiah(
+                        hasil.total
+                    );
+
+
+                const tabel =
+                    document.getElementById(
+                        "riwayat"
+                    );
+
+
+                // =========================
+                // BELUM ADA DATA
+                // =========================
+
+                if (
+                    hasil.data.length === 0
+                ) {
+
+                    tabel.innerHTML = `
+
+                        <tr>
+
+                            <td
+                                colspan="4"
+                                class="kosong"
+                            >
+
+                                Belum ada pengeluaran.
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                    return;
+
+                }
+
+
+                // =========================
+                // TAMPILKAN DATA
+                // =========================
+
+                tabel.innerHTML =
+                    hasil.data.map(
+                        item => `
+
+                        <tr>
+
+                            <td>
+                                ${item.nama}
+                            </td>
+
+                            <td class="nominal">
+
+                                ${formatRupiah(
+                            item.nominal
+                        )}
+
+                            </td>
+
+                            <td>
+
+                                ${formatTanggal(
+                            item.tanggal
+                        )}
+
+                            </td>
+
+                            <td>
+
+                                ${item.keterangan || "-"}
+
+                            </td>
+
+                        </tr>
+
+                    `
+                    ).join("");
+
+
+            } catch (error) {
+
+                console.log(
+                    "Gagal mengambil data:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // ========================================
+        // FORMAT RUPIAH
+        // ========================================
+
+        function formatRupiah(angka) {
+
+            return new Intl
+                .NumberFormat(
+                    "id-ID",
+                    {
+                        style: "currency",
+                        currency: "IDR",
+                        minimumFractionDigits: 0
+                    }
+                )
+                .format(angka);
+
+        }
+
+
+        // ========================================
+        // FORMAT TANGGAL
+        // ========================================
+
+        function formatTanggal(tanggal) {
+
+            return new Date(
+                tanggal
+            ).toLocaleDateString(
+                "id-ID",
+                {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        // ========================================
+        // JALANKAN
+        // ========================================
+
+        cekRole();
+
+        tampilkanPengeluaran();
+
+
+    </script>
+
+
+</body>
+
+</html>

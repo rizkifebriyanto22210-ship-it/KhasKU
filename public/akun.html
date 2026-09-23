@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KhasKU - Kelola Akun</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f3eadc;
+
+            color: #345342;
+
+        }
+
+
+        .container {
+
+            width: 90%;
+
+            max-width: 900px;
+
+            margin: auto;
+
+            padding: 30px 0;
+
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+
+            background: #fffaf2;
+
+            padding: 25px;
+
+            border-radius: 20px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .header h1 {
+
+            margin: 0;
+
+            font-size: 30px;
+
+        }
+
+
+        .header p {
+
+            margin-bottom: 0;
+
+            color: #777;
+
+        }
+
+
+        /* =========================
+           INFO
+        ========================= */
+
+        .info {
+
+            background: #fffaf2;
+
+            padding: 15px 20px;
+
+            border-radius: 14px;
+
+            margin-bottom: 20px;
+
+            border-left: 5px solid #f59e0b;
+
+            color: #666;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =========================
+           LIST AKUN
+        ========================= */
+
+        .list-box {
+
+            background: #fffaf2;
+
+            padding: 25px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .list-box h2 {
+
+            margin-top: 0;
+
+        }
+
+
+        .akun {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 15px;
+
+            margin-top: 12px;
+
+            background: #f3eadc;
+
+            border-radius: 14px;
+
+        }
+
+
+        .akun-kiri {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            min-width: 0;
+
+        }
+
+
+        .nomor {
+
+            width: 40px;
+
+            height: 40px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #345342;
+
+            color: white;
+
+            border-radius: 50%;
+
+            font-weight: bold;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .username {
+
+            font-weight: bold;
+
+            font-size: 17px;
+
+        }
+
+
+        .role {
+
+            margin-top: 4px;
+
+            color: #777;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =========================
+           AKSI
+        ========================= */
+
+        .aksi {
+
+            display: flex;
+
+            gap: 8px;
+
+        }
+
+
+        .aksi button {
+
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 8px 12px;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        .ubah {
+
+            background: #f59e0b;
+
+        }
+
+
+        .ubah:hover {
+
+            background: #d97706;
+
+        }
+
+
+        .hapus {
+
+            background: #dc2626;
+
+        }
+
+
+        .hapus:hover {
+
+            background: #b91c1c;
+
+        }
+
+
+        .admin-sendiri {
+
+            background: #345342;
+
+            color: white;
+
+            padding: 8px 12px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================
+           KOSONG
+        ========================= */
+
+        .kosong {
+
+            text-align: center;
+
+            padding: 30px;
+
+            color: #777;
+
+        }
+
+
+        /* =========================
+           KEMBALI
+        ========================= */
+
+        .kembali {
+
+            display: block;
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            padding: 13px;
+
+            background: #f59e0b;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 12px;
+
+            font-weight: bold;
+
+        }
+
+
+        .kembali:hover {
+
+            background: #d97706;
+
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .akun {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+            }
+
+
+            .aksi {
+
+                width: 100%;
+
+            }
+
+
+            .aksi button {
+
+                flex: 1;
+
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <!-- =========================
+             HEADER
+        ========================= -->
+
+        <div class="header">
+
+            <h1>
+                👤 Kelola Akun
+            </h1>
+
+            <p>
+                Kelola akun dan role pengguna KhasKU.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             INFO
+        ========================= -->
+
+        <div class="info">
+
+            👑 Halaman ini khusus Admin.
+            Admin dapat mengubah role akun dan
+            menghapus akun pengguna.
+
+        </div>
+
+
+        <!-- =========================
+             DAFTAR AKUN
+        ========================= -->
+
+        <div class="list-box">
+
+            <h2>
+                📋 Daftar Akun
+            </h2>
+
+
+            <div id="daftarAkun">
+
+                <div class="kosong">
+
+                    Memuat data akun...
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             KEMBALI
+        ========================= -->
+
+        <a href="/dashboard.html" class="kembali">
+
+            ← Kembali ke Dashboard
+
+        </a>
+
+
+    </div>
+
+
+
+    <script>
+
+
+        // ========================================
+        // DATA USER
+        // ========================================
+
+        let currentUsername = "";
+
+        let currentUserRole = "";
+
+
+
+        // ========================================
+        // CEK USER
+        // ========================================
+
+        async function cekUser() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/auth/me"
+                    );
+
+
+                // Belum login
+
+                if (!response.ok) {
+
+                    window.location.href = "/";
+
+                    return;
+
+                }
+
+
+                const user =
+                    await response.json();
+
+
+                currentUsername =
+                    user.username;
+
+                currentUserRole =
+                    user.role;
+
+
+                console.log(
+                    "Username:",
+                    currentUsername
+                );
+
+                console.log(
+                    "Role:",
+                    currentUserRole
+                );
+
+
+                // =========================
+                // HANYA ADMIN
+                // =========================
+
+                if (
+                    currentUserRole !==
+                    "admin"
+                ) {
+
+                    alert(
+                        "Halaman ini hanya dapat diakses oleh Admin."
+                    );
+
+                    window.location.href =
+                        "/dashboard.html";
+
+                    return;
+
+                }
+
+
+                // =========================
+                // TAMPILKAN AKUN
+                // =========================
+
+                tampilkanAkun();
+
+
+            } catch (error) {
+
+                console.log(
+                    "Error cek user:",
+                    error
+                );
+
+                window.location.href = "/";
+
+            }
+
+        }
+
+
+
+        // ========================================
+        // TAMPILKAN AKUN
+        // ========================================
+
+        async function tampilkanAkun() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/akun"
+                    );
+
+
+                const hasil =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    alert(
+                        hasil.message ||
+                        "Gagal mengambil data akun."
+                    );
+
+                    return;
+
+                }
+
+
+                const daftar =
+                    document.getElementById(
+                        "daftarAkun"
+                    );
+
+
+                // =========================
+                // JIKA KOSONG
+                // =========================
+
+                if (
+                    !hasil.data ||
+                    hasil.data.length === 0
+                ) {
+
+                    daftar.innerHTML = `
+
+                        <div class="kosong">
+
+                            👤 Belum ada akun.
+
+                        </div>
+
+                    `;
+
+                    return;
+
+                }
+
+
+                daftar.innerHTML = "";
+
+
+                // =========================
+                // TAMPILKAN SEMUA AKUN
+                // =========================
+
+                hasil.data.forEach(
+                    (akun, index) => {
+
+                        const data =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        data.className =
+                            "akun";
+
+
+                        let tombolAksi = "";
+
+
+                        // =========================
+                        // AKUN SENDIRI
+                        // =========================
+
+                        if (
+                            akun.username ===
+                            currentUsername
+                        ) {
+
+                            tombolAksi = `
+
+                                <div class="admin-sendiri">
+
+                                    👑 Akun kamu
+
+                                </div>
+
+                            `;
+
+                        } else {
+
+                            tombolAksi = `
+
+                                <div class="aksi">
+
+                                    <button
+                                        class="ubah"
+                                        onclick="ubahRole(
+                                            '${akun._id}',
+                                            '${akun.username}',
+                                            '${akun.role}'
+                                        )"
+                                    >
+
+                                        ✏️ Ubah Role
+
+                                    </button>
+
+
+                                    <button
+                                        class="hapus"
+                                        onclick="hapusAkun(
+                                            '${akun._id}',
+                                            '${akun.username}'
+                                        )"
+                                    >
+
+                                        🗑️ Hapus
+
+                                    </button>
+
+                                </div>
+
+                            `;
+
+                        }
+
+
+                        data.innerHTML = `
+
+                            <div class="akun-kiri">
+
+                                <div class="nomor">
+
+                                    ${index + 1}
+
+                                </div>
+
+
+                                <div>
+
+                                    <div class="username">
+
+                                        ${akun.username}
+
+                                    </div>
+
+
+                                    <div class="role">
+
+                                        Role:
+                                        <strong>
+                                            ${akun.role}
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            ${tombolAksi}
+
+                        `;
+
+
+                        daftar.appendChild(
+                            data
+                        );
+
+                    }
+                );
+
+
+            } catch (error) {
+
+                console.log(
+                    "Error mengambil akun:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "daftarAkun"
+                ).innerHTML = `
+
+                    <div class="kosong">
+
+                        ❌ Gagal mengambil
+                        data akun.
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+
+        // ========================================
+        // UBAH ROLE
+        // ========================================
+
+        async function ubahRole(
+            id,
+            username,
+            roleLama
+        ) {
+
+            if (
+                currentUserRole !==
+                "admin"
+            ) {
+
+                alert(
+                    "Kamu tidak memiliki izin."
+                );
+
+                return;
+
+            }
+
+
+            let roleBaru =
+                prompt(
+                    "Masukkan role baru:\n\n" +
+                    "1. anggota\n" +
+                    "2. bendahara\n\n" +
+                    "Role sekarang: " +
+                    roleLama,
+                    roleLama
+                );
+
+
+            if (
+                roleBaru === null
+            ) {
+
+                return;
+
+            }
+
+
+            roleBaru =
+                roleBaru
+                    .trim()
+                    .toLowerCase();
+
+
+            // =========================
+            // CEK ROLE
+            // =========================
+
+            if (
+                roleBaru !== "anggota" &&
+                roleBaru !== "bendahara"
+            ) {
+
+                alert(
+                    "Role tidak valid.\n\n" +
+                    "Gunakan: anggota atau bendahara."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                roleBaru ===
+                roleLama
+            ) {
+
+                alert(
+                    "Role tersebut sudah digunakan."
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/akun/" +
+                        id +
+                        "/role",
+                        {
+
+                            method: "PUT",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    role:
+                                        roleBaru
+
+                                })
+
+                        }
+                    );
+
+
+                const hasil =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    alert(
+                        hasil.message ||
+                        "Gagal mengubah role."
+                    );
+
+                    return;
+
+                }
+
+
+                alert(
+                    "Role akun " +
+                    username +
+                    " berhasil diubah menjadi " +
+                    roleBaru +
+                    "."
+                );
+
+
+                tampilkanAkun();
+
+
+            } catch (error) {
+
+                console.log(
+                    "Error ubah role:",
+                    error
+                );
+
+                alert(
+                    "Terjadi kesalahan saat mengubah role."
+                );
+
+            }
+
+        }
+
+
+
+        // ========================================
+        // HAPUS AKUN
+        // ========================================
+
+        async function hapusAkun(
+            id,
+            username
+        ) {
+
+            if (
+                currentUserRole !==
+                "admin"
+            ) {
+
+                alert(
+                    "Kamu tidak memiliki izin."
+                );
+
+                return;
+
+            }
+
+
+            const yakin =
+                confirm(
+                    "Yakin ingin menghapus akun \"" +
+                    username +
+                    "\"?"
+                );
+
+
+            if (!yakin) {
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/akun/" +
+                        id,
+                        {
+                            method: "DELETE"
+                        }
+                    );
+
+
+                const text =
+                    await response.text();
+
+
+                console.log(
+                    "Status DELETE:",
+                    response.status
+                );
+
+                console.log(
+                    "Response DELETE:",
+                    text
+                );
+
+
+                let hasil = {};
+
+
+                try {
+
+                    hasil =
+                        JSON.parse(text);
+
+                } catch (error) {
+
+                    console.log(
+                        "Response bukan JSON:",
+                        text
+                    );
+
+                }
+
+
+                if (!response.ok) {
+
+                    alert(
+                        hasil.message ||
+                        "Gagal menghapus akun. Status: " +
+                        response.status
+                    );
+
+                    return;
+
+                }
+
+
+                alert(
+                    hasil.message ||
+                    "Akun berhasil dihapus."
+                );
+
+
+                tampilkanAkun();
+
+
+            } catch (error) {
+
+                console.log(
+                    "Error hapus akun:",
+                    error
+                );
+
+                alert(
+                    "Terjadi kesalahan saat menghapus akun."
+                );
+
+            }
+
+        }
+
+
+
+        // ========================================
+        // JALANKAN
+        // ========================================
+
+        cekUser();
+
+
+    </script>
+
+
+</body>
+
+</html>

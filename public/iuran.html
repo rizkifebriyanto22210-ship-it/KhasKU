@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KhasKU - Iuran Kas</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3eadc;
+            color: #345342;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: auto;
+            padding: 30px 0 50px;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            background: #fffaf2;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .header p {
+            margin: 8px 0 0;
+            color: #777;
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-box {
+            background: #fffaf2;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-box h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+
+            margin-top: 16px;
+            margin-bottom: 7px;
+
+            font-weight: bold;
+        }
+
+        select,
+        input {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 2px solid #e5dccd;
+
+            border-radius: 12px;
+
+            font-size: 16px;
+
+            outline: none;
+
+            background: white;
+        }
+
+        select:focus,
+        input:focus {
+            border-color: #345342;
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        button {
+            width: 100%;
+
+            margin-top: 22px;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: #345342;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #263f32;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================
+           INFO
+        ========================= */
+
+        .info {
+            margin-top: 20px;
+
+            padding: 18px;
+
+            background: #f3eadc;
+
+            border-radius: 14px;
+
+            color: #666;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           STATUS IURAN
+        ========================= */
+
+        .status-card {
+            padding: 16px;
+
+            margin-bottom: 12px;
+
+            border-radius: 14px;
+
+            background: #f3eadc;
+
+            border-left: 6px solid #999;
+        }
+
+        .status-card.sudah {
+            border-left-color: #16a34a;
+        }
+
+        .status-card.belum {
+            border-left-color: #dc2626;
+        }
+
+        .nama {
+            font-size: 18px;
+
+            font-weight: bold;
+        }
+
+        .kelas {
+            color: #777;
+
+            margin-top: 4px;
+        }
+
+        .nominal {
+            margin-top: 10px;
+
+            font-weight: bold;
+        }
+
+        .status-sudah {
+            color: #16a34a;
+
+            font-weight: bold;
+
+            margin-top: 6px;
+        }
+
+        .status-belum {
+            color: #dc2626;
+
+            font-weight: bold;
+
+            margin-top: 6px;
+        }
+
+
+        /* =========================
+           KEMBALI
+        ========================= */
+
+        .kembali {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            padding: 13px;
+
+            background: #f59e0b;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 12px;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .kembali:hover {
+            background: #d97706;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 94%;
+            }
+
+            .header h1 {
+                font-size: 26px;
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <!-- =========================
+         HEADER
+    ========================= -->
+
+        <div class="header">
+
+            <h1>
+                💰 Iuran Kas
+            </h1>
+
+            <p>
+                Catat pembayaran iuran anggota kelas.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+         FORM IURAN
+    ========================= -->
+
+        <div class="form-box">
+
+            <h2>
+                ➕ Catat Iuran
+            </h2>
+
+
+            <form action="/api/iuran" method="POST">
+
+
+                <!-- NAMA ANGGOTA -->
+
+                <label for="anggota">
+                    Nama Anggota
+                </label>
+
+                <select id="anggota" name="anggota" required>
+
+                    <option value="">
+                        Memuat anggota...
+                    </option>
+
+                </select>
+
+
+                <!-- NOMINAL -->
+
+                <label for="nominal">
+                    Nominal Iuran
+                </label>
+
+                <input type="number" id="nominal" name="nominal" placeholder="Contoh: 5000" min="1" required>
+
+
+                <!-- TANGGAL -->
+
+                <label for="tanggal">
+                    Tanggal Pembayaran
+                </label>
+
+                <input type="date" id="tanggal" name="tanggal" required>
+
+
+                <!-- KETERANGAN -->
+
+                <label for="keterangan">
+                    Keterangan
+                </label>
+
+                <input type="text" id="keterangan" name="keterangan" placeholder="Contoh: Iuran minggu pertama">
+
+
+                <!-- TOMBOL -->
+
+                <button type="submit">
+                    💵 Bayar Iuran
+                </button>
+
+
+            </form>
+
+
+            <div class="info">
+
+                💡 Pembayaran iuran akan otomatis
+                dicatat sebagai <b>Pemasukan</b>
+                kas kelas.
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =========================
+         STATUS IURAN
+    ========================= -->
+
+        <div class="form-box">
+
+            <h2>
+                📋 Status Iuran
+            </h2>
+
+
+            <div id="statusIuran">
+
+                Memuat status iuran...
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =========================
+         KEMBALI
+    ========================= -->
+
+        <a href="/dashboard.html" class="kembali">
+            ← Kembali ke Dashboard
+        </a>
+
+
+    </div>
+
+
+    <script>
+
+
+        // ========================================
+        // TANGGAL HARI INI
+        // ========================================
+
+        const tanggal =
+            document.getElementById("tanggal");
+
+        const hariIni =
+            new Date()
+                .toISOString()
+                .split("T")[0];
+
+        tanggal.value = hariIni;
+
+
+        // ========================================
+        // MENGAMBIL DATA ANGGOTA
+        // ========================================
+
+        async function tampilkanAnggota() {
+
+            try {
+
+                const response =
+                    await fetch("/api/anggota");
+
+                const hasil =
+                    await response.json();
+
+
+                const select =
+                    document.getElementById(
+                        "anggota"
+                    );
+
+
+                select.innerHTML = `
+
+            <option value="">
+                Pilih anggota
+            </option>
+
+        `;
+
+
+                if (
+                    !hasil.data ||
+                    hasil.data.length === 0
+                ) {
+
+                    select.innerHTML = `
+
+                <option value="">
+                    Belum ada anggota
+                </option>
+
+            `;
+
+                    return;
+
+                }
+
+
+                hasil.data.forEach(
+                    (anggota) => {
+
+                        const option =
+                            document.createElement(
+                                "option"
+                            );
+
+
+                        option.value =
+                            anggota.nama;
+
+
+                        option.textContent =
+                            anggota.nama +
+                            " - " +
+                            anggota.kelas;
+
+
+                        select.appendChild(
+                            option
+                        );
+
+                    }
+                );
+
+
+            } catch (error) {
+
+                console.log(
+                    "Gagal mengambil anggota:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "anggota"
+                ).innerHTML = `
+
+            <option value="">
+                Gagal mengambil anggota
+            </option>
+
+        `;
+
+            }
+
+        }
+
+
+        // ========================================
+        // STATUS IURAN
+        // ========================================
+
+        async function tampilkanStatusIuran() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/iuran/status"
+                    );
+
+
+                const hasil =
+                    await response.json();
+
+
+                const tempat =
+                    document.getElementById(
+                        "statusIuran"
+                    );
+
+
+                tempat.innerHTML = "";
+
+
+                if (
+                    !hasil.data ||
+                    hasil.data.length === 0
+                ) {
+
+                    tempat.innerHTML = `
+
+                <p>
+                    Belum ada anggota kelas.
+                </p>
+
+            `;
+
+                    return;
+
+                }
+
+
+                hasil.data.forEach(
+                    (anggota) => {
+
+
+                        const div =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        if (
+                            anggota.sudahBayar
+                        ) {
+
+                            div.className =
+                                "status-card sudah";
+
+
+                            div.innerHTML = `
+
+                        <div class="nama">
+                            👤 ${anggota.nama}
+                        </div>
+
+                        <div class="kelas">
+                            ${anggota.kelas}
+                        </div>
+
+                        <div class="nominal">
+                            💰 Rp ${anggota.total.toLocaleString("id-ID")}
+                        </div>
+
+                        <div class="status-sudah">
+                            ✅ Sudah Bayar
+                        </div>
+
+                    `;
+
+                        } else {
+
+                            div.className =
+                                "status-card belum";
+
+
+                            div.innerHTML = `
+
+                        <div class="nama">
+                            👤 ${anggota.nama}
+                        </div>
+
+                        <div class="kelas">
+                            ${anggota.kelas}
+                        </div>
+
+                        <div class="nominal">
+                            💰 Rp 0
+                        </div>
+
+                        <div class="status-belum">
+                            ❌ Belum Bayar
+                        </div>
+
+                    `;
+
+                        }
+
+
+                        tempat.appendChild(
+                            div
+                        );
+
+                    }
+                );
+
+
+            } catch (error) {
+
+                console.log(
+                    "Gagal mengambil status iuran:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "statusIuran"
+                ).innerHTML = `
+
+            <p>
+                ❌ Gagal mengambil status iuran.
+            </p>
+
+        `;
+
+            }
+
+        }
+
+
+        // ========================================
+        // JALANKAN
+        // ========================================
+
+        tampilkanAnggota();
+
+        tampilkanStatusIuran();
+
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KhasKU - Anggota Kelas</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f3eadc;
+
+            color: #345342;
+
+        }
+
+        .container {
+
+            width: 90%;
+
+            max-width: 900px;
+
+            margin: auto;
+
+            padding: 30px 0;
+
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+
+            background: #fffaf2;
+
+            padding: 25px;
+
+            border-radius: 20px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.08);
+
+        }
+
+        .header h1 {
+
+            margin: 0;
+
+            font-size: 30px;
+
+        }
+
+        .header p {
+
+            margin-bottom: 0;
+
+            color: #777;
+
+        }
+
+        /* =========================
+           INFO AKSES
+        ========================= */
+
+        .info-akses {
+
+            background: #fffaf2;
+
+            padding: 15px 20px;
+
+            border-radius: 14px;
+
+            margin-bottom: 20px;
+
+            color: #666;
+
+            font-size: 14px;
+
+            display: none;
+
+        }
+
+        .info-akses.admin {
+
+            border-left: 5px solid #f59e0b;
+
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-box {
+
+            background: #fffaf2;
+
+            padding: 25px;
+
+            border-radius: 20px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.08);
+
+            display: none;
+
+        }
+
+        .form-box h2 {
+
+            margin-top: 0;
+
+        }
+
+        label {
+
+            display: block;
+
+            margin-top: 15px;
+
+            margin-bottom: 7px;
+
+            font-weight: bold;
+
+        }
+
+        input {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border: 2px solid #e5dccd;
+
+            border-radius: 12px;
+
+            font-size: 16px;
+
+            outline: none;
+
+        }
+
+        input:focus {
+
+            border-color: #345342;
+
+        }
+
+        .button {
+
+            width: 100%;
+
+            margin-top: 20px;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: #345342;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+        .button:hover {
+
+            background: #263f32;
+
+        }
+
+        /* =========================
+           DAFTAR
+        ========================= */
+
+        .list-box {
+
+            background: #fffaf2;
+
+            padding: 25px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.08);
+
+        }
+
+        .list-box h2 {
+
+            margin-top: 0;
+
+        }
+
+        .anggota {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 15px;
+
+            margin-top: 12px;
+
+            background: #f3eadc;
+
+            border-radius: 14px;
+
+            gap: 15px;
+
+        }
+
+        .anggota-kiri {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+        }
+
+        .nomor {
+
+            width: 40px;
+
+            height: 40px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #345342;
+
+            color: white;
+
+            border-radius: 50%;
+
+            font-weight: bold;
+
+            flex-shrink: 0;
+
+        }
+
+        .nama {
+
+            font-weight: bold;
+
+            font-size: 17px;
+
+        }
+
+        .kelas {
+
+            color: #777;
+
+            font-size: 14px;
+
+            margin-top: 3px;
+
+        }
+
+        /* =========================
+           TOMBOL AKSI
+        ========================= */
+
+        .aksi {
+
+            display: none;
+
+            gap: 8px;
+
+        }
+
+        .aksi button {
+
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 8px 12px;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+        .edit {
+
+            background: #f59e0b;
+
+        }
+
+        .edit:hover {
+
+            background: #d97706;
+
+        }
+
+        .hapus {
+
+            background: #dc2626;
+
+        }
+
+        .hapus:hover {
+
+            background: #b91c1c;
+
+        }
+
+        /* =========================
+           KOSONG
+        ========================= */
+
+        .kosong {
+
+            text-align: center;
+
+            padding: 30px;
+
+            color: #777;
+
+        }
+
+        /* =========================
+           KEMBALI
+        ========================= */
+
+        .kembali {
+
+            display: block;
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            padding: 13px;
+
+            background: #f59e0b;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 12px;
+
+            font-weight: bold;
+
+        }
+
+        .kembali:hover {
+
+            background: #d97706;
+
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .anggota {
+
+                align-items: flex-start;
+
+            }
+
+            .aksi {
+
+                flex-direction: column;
+
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <!-- =========================
+             HEADER
+        ========================= -->
+
+        <div class="header">
+
+            <h1>
+                👥 Anggota Kelas
+            </h1>
+
+            <p>
+                Kelola daftar anggota kelas di KhasKU.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             INFO AKSES
+        ========================= -->
+
+        <div class="info-akses" id="infoAkses">
+        </div>
+
+
+        <!-- =========================
+             FORM TAMBAH ANGGOTA
+        ========================= -->
+
+        <div class="form-box" id="formBox">
+
+            <h2>
+                ➕ Tambah Anggota
+            </h2>
+
+            <form action="/api/anggota" method="POST">
+
+                <label for="nama">
+                    Nama Anggota
+                </label>
+
+                <input type="text" id="nama" name="nama" placeholder="Masukkan nama anggota" required>
+
+
+                <label for="kelas">
+                    Kelas
+                </label>
+
+                <input type="text" id="kelas" name="kelas" placeholder="Contoh: X RPL 1" required>
+
+
+                <button type="submit" class="button">
+
+                    Tambahkan Anggota
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- =========================
+             DAFTAR ANGGOTA
+        ========================= -->
+
+        <div class="list-box">
+
+            <h2>
+                📋 Daftar Anggota
+            </h2>
+
+
+            <div id="daftarAnggota">
+
+                <div class="kosong">
+                    Memuat data anggota...
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             KEMBALI
+        ========================= -->
+
+        <a href="/dashboard.html" class="kembali">
+
+            ← Kembali ke Dashboard
+
+        </a>
+
+
+    </div>
+
+
+
+    <script>
+
+
+        // ========================================
+        // ROLE USER
+        // ========================================
+
+        let currentUserRole = "";
+
+
+
+        // ========================================
+        // CEK USER
+        // ========================================
+
+        async function cekUser() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/auth/me"
+                    );
+
+
+                if (!response.ok) {
+
+                    window.location.href =
+                        "/";
+
+                    return;
+
+                }
+
+
+                const user =
+                    await response.json();
+
+
+                console.log(
+                    "User:",
+                    user.username
+                );
+
+                console.log(
+                    "Role:",
+                    user.role
+                );
+
+
+                currentUserRole =
+                    user.role;
+
+
+                // ========================================
+                // ATUR TAMPILAN BERDASARKAN ROLE
+                // ========================================
+
+                const formBox =
+                    document.getElementById(
+                        "formBox"
+                    );
+
+
+                const infoAkses =
+                    document.getElementById(
+                        "infoAkses"
+                    );
+
+
+                if (
+                    currentUserRole ===
+                    "admin"
+                ) {
+
+                    // Admin boleh kelola
+
+                    formBox.style.display =
+                        "block";
+
+
+                    infoAkses.style.display =
+                        "block";
+
+
+                    infoAkses.className =
+                        "info-akses admin";
+
+
+                    infoAkses.innerHTML =
+                        "👑 Kamu login sebagai Admin. " +
+                        "Kamu dapat menambah, mengedit, " +
+                        "dan menghapus anggota.";
+
+
+                } else if (
+                    currentUserRole ===
+                    "bendahara"
+                ) {
+
+                    // Bendahara hanya melihat
+
+                    infoAkses.style.display =
+                        "block";
+
+
+                    infoAkses.innerHTML =
+                        "💼 Kamu login sebagai Bendahara. " +
+                        "Kamu hanya dapat melihat daftar anggota.";
+
+
+                } else {
+
+                    // Anggota hanya melihat
+
+                    infoAkses.style.display =
+                        "block";
+
+
+                    infoAkses.innerHTML =
+                        "👤 Kamu login sebagai Anggota. " +
+                        "Kamu hanya dapat melihat daftar anggota.";
+
+                }
+
+
+                // Ambil data anggota
+
+                tampilkanAnggota();
+
+            } catch (error) {
+
+                console.log(
+                    "Gagal mengecek user:",
+                    error
+                );
+
+                window.location.href =
+                    "/";
+
+            }
+
+        }
+
+
+
+        // ========================================
+        // MENGAMBIL DATA ANGGOTA
+        // ========================================
+
+        async function tampilkanAnggota() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/anggota"
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Gagal mengambil data anggota"
+                    );
+
+                }
+
+
+                const hasil =
+                    await response.json();
+
+
+                const daftar =
+                    document.getElementById(
+                        "daftarAnggota"
+                    );
+
+
+                // Jika tidak ada data
+
+                if (
+                    !hasil.data ||
+                    hasil.data.length === 0
+                ) {
+
+                    daftar.innerHTML = `
+
+                        <div class="kosong">
+
+                            👥 Belum ada anggota kelas.
+
+                        </div>
+
+                    `;
+
+                    return;
+
+                }
+
+
+                // Kosongkan daftar
+
+                daftar.innerHTML = "";
+
+
+                // ========================================
+                // TAMPILKAN SEMUA ANGGOTA
+                // ========================================
+
+                hasil.data.forEach(
+                    (anggota, index) => {
+
+                        const data =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        data.className =
+                            "anggota";
+
+
+                        // Tombol aksi
+
+                        let tombolAksi = "";
+
+
+                        if (
+                            currentUserRole ===
+                            "admin"
+                        ) {
+
+                            tombolAksi = `
+
+                                <div class="aksi"
+                                     style="display:flex;">
+
+                                    <button
+                                        class="edit"
+                                        onclick="editAnggota(
+                                            '${anggota._id}',
+                                            '${anggota.nama}',
+                                            '${anggota.kelas}'
+                                        )">
+
+                                        ✏️ Edit
+
+                                    </button>
+
+
+                                    <button
+                                        class="hapus"
+                                        onclick="hapusAnggota(
+                                            '${anggota._id}'
+                                        )">
+
+                                        🗑️ Hapus
+
+                                    </button>
+
+                                </div>
+
+                            `;
+
+                        }
+
+
+                        data.innerHTML = `
+
+                            <div class="anggota-kiri">
+
+                                <div class="nomor">
+                                    ${index + 1}
+                                </div>
+
+
+                                <div>
+
+                                    <div class="nama">
+                                        ${anggota.nama}
+                                    </div>
+
+
+                                    <div class="kelas">
+                                        ${anggota.kelas}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            ${tombolAksi}
+
+                        `;
+
+
+                        daftar.appendChild(
+                            data
+                        );
+
+                    }
+                );
+
+
+            } catch (error) {
+
+                console.log(
+                    "Error:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "daftarAnggota"
+                ).innerHTML = `
+
+                    <div class="kosong">
+
+                        ❌ Gagal mengambil
+                        data anggota.
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+
+        // ========================================
+        // EDIT ANGGOTA
+        // ========================================
+
+        async function editAnggota(
+            id,
+            namaLama,
+            kelasLama
+        ) {
+
+            if (
+                currentUserRole !==
+                "admin"
+            ) {
+
+                alert(
+                    "Kamu tidak memiliki izin."
+                );
+
+                return;
+
+            }
+
+
+            const namaBaru =
+                prompt(
+                    "Nama anggota:",
+                    namaLama
+                );
+
+
+            if (
+                namaBaru === null
+            ) {
+
+                return;
+
+            }
+
+
+            const kelasBaru =
+                prompt(
+                    "Kelas:",
+                    kelasLama
+                );
+
+
+            if (
+                kelasBaru === null
+            ) {
+
+                return;
+
+            }
+
+
+            if (
+                !namaBaru.trim() ||
+                !kelasBaru.trim()
+            ) {
+
+                alert(
+                    "Nama dan kelas wajib diisi."
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/anggota/" + id,
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                nama:
+                                    namaBaru.trim(),
+
+                                kelas:
+                                    kelasBaru.trim()
+
+                            })
+
+                        }
+                    );
+
+
+                const hasil =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    alert(
+                        hasil.message ||
+                        "Gagal mengedit anggota."
+                    );
+
+                    return;
+
+                }
+
+
+                alert(
+                    "Anggota berhasil diperbarui."
+                );
+
+
+                tampilkanAnggota();
+
+            } catch (error) {
+
+                console.log(
+                    "Error edit:",
+                    error
+                );
+
+                alert(
+                    "Terjadi kesalahan saat mengedit."
+                );
+
+            }
+
+        }
+
+
+
+        // ========================================
+        // HAPUS ANGGOTA
+        // ========================================
+
+        async function hapusAnggota(id) {
+
+            if (currentUserRole !== "admin") {
+
+                alert(
+                    "Kamu tidak memiliki izin."
+                );
+
+                return;
+
+            }
+
+
+            const yakin = confirm(
+                "Yakin ingin menghapus anggota ini?"
+            );
+
+
+            if (!yakin) {
+
+                return;
+
+            }
+
+
+            try {
+
+                const response = await fetch(
+                    "/api/anggota/" + id,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+
+                // Ambil response sebagai text dulu
+                const text = await response.text();
+
+                console.log("Status DELETE:", response.status);
+                console.log("Response DELETE:", text);
+
+
+                // Coba ubah menjadi JSON
+                let hasil = {};
+
+                try {
+
+                    hasil = JSON.parse(text);
+
+                } catch (error) {
+
+                    console.log(
+                        "Response bukan JSON:",
+                        text
+                    );
+
+                }
+
+
+                if (!response.ok) {
+
+                    alert(
+                        hasil.message ||
+                        "Gagal menghapus anggota. Status: " +
+                        response.status
+                    );
+
+                    return;
+
+                }
+
+
+                alert(
+                    hasil.message ||
+                    "Anggota berhasil dihapus."
+                );
+
+
+                // Tampilkan ulang daftar
+                tampilkanAnggota();
+
+
+            } catch (error) {
+
+                console.log(
+                    "Error hapus:",
+                    error
+                );
+
+                alert(
+                    "Terjadi kesalahan saat menghapus."
+                );
+
+            }
+
+        }
+
+
+        // ========================================
+        // JALANKAN
+        // ========================================
+
+        cekUser();
+
+
+    </script>
+
+
+</body>
+
+</html>

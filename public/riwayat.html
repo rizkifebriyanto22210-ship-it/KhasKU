@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Riwayat Transaksi - KhasKU</title>
+
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background: #f3eadc;
+
+            color: #333;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+
+            background: #345342;
+
+            color: white;
+
+            padding: 18px 40px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.15);
+
+        }
+
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+        }
+
+
+        .logo-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            background: #f59e0b;
+
+            color: white;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border-radius: 12px;
+
+            font-size: 23px;
+
+        }
+
+
+        .back {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 15px;
+
+        }
+
+
+        .back:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        main {
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            padding: 40px 25px;
+
+        }
+
+
+        /* =========================
+           JUDUL
+        ========================= */
+
+        .title {
+
+            background: #fffaf2;
+
+            padding: 30px;
+
+            border-radius: 20px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.10);
+
+        }
+
+
+        .title h1 {
+
+            color: #345342;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .title p {
+
+            color: #666;
+
+        }
+
+
+        /* =========================
+           RINGKASAN
+        ========================= */
+
+        .summary {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .summary-card {
+
+            background: #fffaf2;
+
+            padding: 22px;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.10);
+
+        }
+
+
+        .summary-card h3 {
+
+            font-size: 14px;
+
+            color: #666;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .summary-card .number {
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            color: #345342;
+
+        }
+
+
+        .summary-card.income .number {
+
+            color: #2e7d32;
+
+        }
+
+
+        .summary-card.expense .number {
+
+            color: #c62828;
+
+        }
+
+
+        /* =========================
+           TRANSAKSI
+        ========================= */
+
+        .transaction-box {
+
+            background: #345342;
+
+            padding: 25px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.15);
+
+        }
+
+
+        .transaction-title {
+
+            color: white;
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .transaction-list {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+
+        }
+
+
+        .transaction {
+
+            background: #fffaf2;
+
+            padding: 18px;
+
+            border-radius: 15px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+        }
+
+
+        .transaction-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+        }
+
+
+        .transaction-icon {
+
+            width: 45px;
+
+            height: 45px;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-size: 23px;
+
+            background: #e8f5e9;
+
+        }
+
+
+        .transaction-icon.expense {
+
+            background: #ffebee;
+
+        }
+
+
+        .transaction-name {
+
+            font-weight: bold;
+
+            color: #345342;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .transaction-date {
+
+            font-size: 13px;
+
+            color: #777;
+
+        }
+
+
+        .transaction-note {
+
+            font-size: 13px;
+
+            color: #888;
+
+            margin-top: 4px;
+
+        }
+
+
+        .transaction-right {
+
+            text-align: right;
+
+            white-space: nowrap;
+
+        }
+
+
+        .transaction-type {
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .transaction-type.income {
+
+            color: #2e7d32;
+
+        }
+
+
+        .transaction-type.expense {
+
+            color: #c62828;
+
+        }
+
+
+        .transaction-amount {
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+        }
+
+
+        .transaction-amount.income {
+
+            color: #2e7d32;
+
+        }
+
+
+        .transaction-amount.expense {
+
+            color: #c62828;
+
+        }
+
+
+        /* =========================
+           TOMBOL HAPUS
+        ========================= */
+
+        .delete-button {
+
+            margin-top: 10px;
+
+            padding: 8px 12px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #dc2626;
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+        }
+
+
+        .delete-button:hover {
+
+            background: #b91c1c;
+
+            transform: translateY(-2px);
+
+        }
+
+
+        /* =========================
+           KOSONG
+        ========================= */
+
+        .empty {
+
+            background: #fffaf2;
+
+            padding: 35px;
+
+            border-radius: 15px;
+
+            text-align: center;
+
+            color: #777;
+
+        }
+
+
+        .empty-icon {
+
+            font-size: 45px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+
+            color: white;
+
+            text-align: center;
+
+            padding: 25px;
+
+        }
+
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        .error {
+
+            background: #ffebee;
+
+            color: #c62828;
+
+            padding: 18px;
+
+            border-radius: 12px;
+
+            text-align: center;
+
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            header {
+
+                padding: 15px 20px;
+
+            }
+
+
+            .summary {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .transaction {
+
+                align-items: flex-start;
+
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            main {
+
+                padding: 25px 15px;
+
+            }
+
+
+            .title {
+
+                padding: 22px;
+
+            }
+
+
+            .transaction {
+
+                flex-direction: column;
+
+            }
+
+
+            .transaction-right {
+
+                text-align: left;
+
+                margin-left: 60px;
+
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header>
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                K
+            </div>
+
+            <span>
+                KhasKU
+            </span>
+
+        </div>
+
+
+        <a href="/dashboard.html" class="back">
+            ← Kembali ke Dashboard
+        </a>
+
+    </header>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main>
+
+
+        <!-- =========================
+             JUDUL
+        ========================= -->
+
+        <div class="title">
+
+            <h1>
+                Riwayat Transaksi 🧾
+            </h1>
+
+            <p>
+                Lihat semua pemasukan dan pengeluaran
+                kas kelas.
+            </p>
+
+        </div>
+
+
+
+        <!-- =========================
+             RINGKASAN
+        ========================= -->
+
+        <div class="summary">
+
+
+            <div class="summary-card income">
+
+                <h3>
+                    💵 Total Pemasukan
+                </h3>
+
+                <div class="number" id="totalPemasukan">
+                    Rp 0
+                </div>
+
+            </div>
+
+
+            <div class="summary-card expense">
+
+                <h3>
+                    💸 Total Pengeluaran
+                </h3>
+
+                <div class="number" id="totalPengeluaran">
+                    Rp 0
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <h3>
+                    🧾 Jumlah Transaksi
+                </h3>
+
+                <div class="number" id="jumlahTransaksi">
+                    0
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             DAFTAR TRANSAKSI
+        ========================= -->
+
+        <div class="transaction-box">
+
+            <div class="transaction-title">
+                📋 Semua Transaksi
+            </div>
+
+
+            <div class="transaction-list" id="transactionList">
+
+                <div class="loading">
+                    Memuat riwayat transaksi...
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+
+        // ========================================
+        // CEK LOGIN DAN ROLE
+        // ========================================
+
+        async function cekUser() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/auth/me"
+                    );
+
+
+                if (!response.ok) {
+
+                    window.location.href =
+                        "/";
+
+                    return;
+
+                }
+
+
+                const user =
+                    await response.json();
+
+
+                console.log(
+                    "User:",
+                    user.username
+                );
+
+                console.log(
+                    "Role:",
+                    user.role
+                );
+
+
+                // Setelah role diketahui,
+                // baru tampilkan transaksi
+
+                loadRiwayat(user.role);
+
+
+            } catch (error) {
+
+                console.log(
+                    "Gagal mengecek user:",
+                    error
+                );
+
+                window.location.href =
+                    "/";
+
+            }
+
+        }
+
+
+
+        // ========================================
+        // MENGAMBIL RIWAYAT
+        // ========================================
+
+        async function loadRiwayat(userRole) {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/riwayat"
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Gagal mengambil data"
+                    );
+
+                }
+
+
+                const result =
+                    await response.json();
+
+
+                const data =
+                    result.data;
+
+
+                const list =
+                    document.getElementById(
+                        "transactionList"
+                    );
+
+
+                // ========================================
+                // TOTAL PEMASUKAN
+                // ========================================
+
+                const totalPemasukan =
+                    data
+                        .filter(
+                            item =>
+                                item.jenis ===
+                                "Pemasukan"
+                        )
+                        .reduce(
+                            (total, item) =>
+                                total +
+                                Number(item.nominal),
+                            0
+                        );
+
+
+                // ========================================
+                // TOTAL PENGELUARAN
+                // ========================================
+
+                const totalPengeluaran =
+                    data
+                        .filter(
+                            item =>
+                                item.jenis ===
+                                "Pengeluaran"
+                        )
+                        .reduce(
+                            (total, item) =>
+                                total +
+                                Number(item.nominal),
+                            0
+                        );
+
+
+                // ========================================
+                // TAMPILKAN TOTAL
+                // ========================================
+
+                document.getElementById(
+                    "totalPemasukan"
+                ).textContent =
+                    formatRupiah(
+                        totalPemasukan
+                    );
+
+
+                document.getElementById(
+                    "totalPengeluaran"
+                ).textContent =
+                    formatRupiah(
+                        totalPengeluaran
+                    );
+
+
+                document.getElementById(
+                    "jumlahTransaksi"
+                ).textContent =
+                    data.length;
+
+
+
+                // ========================================
+                // JIKA KOSONG
+                // ========================================
+
+                if (data.length === 0) {
+
+                    list.innerHTML = `
+
+                        <div class="empty">
+
+                            <div class="empty-icon">
+                                🧾
+                            </div>
+
+                            <div>
+                                Belum ada transaksi.
+                            </div>
+
+                        </div>
+
+                    `;
+
+                    return;
+
+                }
+
+
+
+                // ========================================
+                // KOSONGKAN LIST
+                // ========================================
+
+                list.innerHTML = "";
+
+
+
+                // ========================================
+                // MENAMPILKAN TRANSAKSI
+                // ========================================
+
+                data.forEach(item => {
+
+                    const isIncome =
+                        item.jenis ===
+                        "Pemasukan";
+
+
+                    const transaction =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    transaction.className =
+                        "transaction";
+
+
+                    // ========================================
+                    // TOMBOL HAPUS
+                    // HANYA ADMIN DAN BENDAHARA
+                    // ========================================
+
+                    let tombolHapus = "";
+
+
+                    if (
+                        userRole === "admin" ||
+                        userRole === "bendahara"
+                    ) {
+
+                        tombolHapus = `
+
+                            <button
+                                class="delete-button"
+                                onclick="hapusTransaksi(
+                                    '${item.id}',
+                                    '${item.jenis}'
+                                )"
+                            >
+                                🗑️ Hapus
+                            </button>
+
+                        `;
+
+                    }
+
+
+                    transaction.innerHTML = `
+
+                        <div class="transaction-left">
+
+                            <div class="
+                                transaction-icon
+                                ${isIncome
+                            ? ""
+                            : "expense"}
+                            ">
+
+                                ${isIncome
+                            ? "💵"
+                            : "💸"}
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="
+                                    transaction-name
+                                ">
+
+                                    ${item.nama}
+
+                                </div>
+
+
+                                <div class="
+                                    transaction-date
+                                ">
+
+                                    📅 ${formatTanggal(
+                                item.tanggal
+                            )}
+
+                                </div>
+
+
+                                <div class="
+                                    transaction-note
+                                ">
+
+                                    📝 ${item.keterangan
+                        || "Tidak ada keterangan"}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="
+                            transaction-right
+                        ">
+
+                            <div class="
+                                transaction-type
+                                ${isIncome
+                            ? "income"
+                            : "expense"}
+                            ">
+
+                                ${item.jenis}
+
+                            </div>
+
+
+                            <div class="
+                                transaction-amount
+                                ${isIncome
+                            ? "income"
+                            : "expense"}
+                            ">
+
+                                ${isIncome
+                            ? "+"
+                            : "-"}
+                                ${formatRupiah(
+                                item.nominal
+                            )}
+
+                            </div>
+
+
+                            ${tombolHapus}
+
+                        </div>
+
+                    `;
+
+
+                    list.appendChild(
+                        transaction
+                    );
+
+                });
+
+
+            } catch (error) {
+
+                console.log(
+                    "Error:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "transactionList"
+                ).innerHTML = `
+
+                    <div class="error">
+
+                        ❌ Gagal memuat
+                        riwayat transaksi.
+
+                        <br><br>
+
+                        Pastikan server
+                        sedang berjalan.
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+
+        // ========================================
+        // HAPUS TRANSAKSI
+        // ========================================
+
+        async function hapusTransaksi(id, jenis) {
+
+            const yakin = confirm(
+                "Yakin ingin menghapus transaksi ini?"
+            );
+
+            if (!yakin) {
+                return;
+            }
+
+            try {
+
+                let url = "";
+
+                if (jenis === "Pemasukan") {
+
+                    url = "/api/pemasukan/" + id;
+
+                } else if (jenis === "Pengeluaran") {
+
+                    url = "/api/pengeluaran/" + id;
+
+                }
+
+
+                const response = await fetch(
+                    url,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    alert(
+                        result.message ||
+                        "Gagal menghapus transaksi."
+                    );
+
+                    return;
+
+                }
+
+
+                alert(
+                    "Transaksi berhasil dihapus."
+                );
+
+
+                // Muat ulang riwayat
+
+                cekUser();
+
+            } catch (error) {
+
+                console.log(
+                    "Error menghapus:",
+                    error
+                );
+
+                alert(
+                    "Terjadi kesalahan saat menghapus transaksi."
+                );
+
+            }
+
+        }
+
+
+
+        // ========================================
+        // FORMAT RUPIAH
+        // ========================================
+
+        function formatRupiah(angka) {
+
+            return "Rp " +
+                Number(angka).toLocaleString(
+                    "id-ID"
+                );
+
+        }
+
+
+
+        // ========================================
+        // FORMAT TANGGAL
+        // ========================================
+
+        function formatTanggal(tanggal) {
+
+            return new Date(
+                tanggal
+            ).toLocaleDateString(
+                "id-ID",
+                {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+
+        // ========================================
+        // JALANKAN PROGRAM
+        // ========================================
+
+        cekUser();
+
+    </script>
+
+</body>
+
+</html>
