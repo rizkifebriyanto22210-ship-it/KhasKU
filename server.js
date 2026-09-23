@@ -1,19 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const dns = require("dns");
 const session = require("express-session");
-
-
-// =========================
-// DNS GOOGLE
-// =========================
-
-dns.setServers([
-    "8.8.8.8",
-    "8.8.4.4"
-]);
-
 
 // =========================
 // ENV
@@ -21,15 +9,13 @@ dns.setServers([
 
 dotenv.config();
 
-
 // =========================
 // APP
 // =========================
 
 const app = express();
 
-const PORT = 3000;
-
+const PORT = process.env.PORT || 3000;
 
 // =========================
 // MIDDLEWARE
@@ -43,7 +29,6 @@ app.use(
     })
 );
 
-
 // =========================
 // SESSION
 // =========================
@@ -52,10 +37,14 @@ app.use(
     session({
         secret: "khasKU-rahasia",
         resave: false,
-        saveUninitialized: false
+        saveUninitialized: false,
+        cookie: {
+            secure: process.env.NODE_ENV === "production",
+            httpOnly: true,
+            sameSite: "lax"
+        }
     })
 );
-
 
 // =========================
 // STATIC FILE
@@ -64,7 +53,6 @@ app.use(
 app.use(
     express.static("public")
 );
-
 
 // =========================
 // HALAMAN UTAMA
@@ -78,7 +66,6 @@ app.get("/", (req, res) => {
 
 });
 
-
 // =========================
 // ROUTER AUTH
 // =========================
@@ -87,7 +74,6 @@ app.use(
     "/api/auth",
     require("./routers/auth")
 );
-
 
 // =========================
 // ROUTER PEMASUKAN
@@ -98,7 +84,6 @@ app.use(
     require("./routers/pemasukan")
 );
 
-
 // =========================
 // ROUTER PENGELUARAN
 // =========================
@@ -107,7 +92,6 @@ app.use(
     "/api/pengeluaran",
     require("./routers/pengeluaran")
 );
-
 
 // =========================
 // ROUTER RIWAYAT
@@ -118,7 +102,6 @@ app.use(
     require("./routers/riwayat")
 );
 
-
 // =========================
 // ROUTER ANGGOTA
 // =========================
@@ -128,17 +111,14 @@ app.use(
     require("./routers/anggota")
 );
 
-
 // =========================
 // ROUTER AKUN
-// KHUSUS ADMIN
 // =========================
 
 app.use(
     "/api/akun",
     require("./routers/akun")
 );
-
 
 // =========================
 // ROUTER IURAN
@@ -149,48 +129,115 @@ app.use(
     require("./routers/iuran")
 );
 
-
 // =========================
-// KONEKSI MONGODB
+// MONGODB CONNECTION
 // =========================
 
-mongoose.connect(
-    process.env.MONGO_URI,
-    {
-        serverSelectionTimeoutMS: 10000
+let mongoConnected = false;
+
+async function connectMongoDB() {
+
+    if (mongoConnected && mongoose.connection.readyState === 1) {
+        return;
     }
-)
-    .then(() => {
+
+    if (!process.env.MONGO_URI) {
+
+        console.error(
+            "MONGO_URI tidak ditemukan!"
+        );
+
+        throw new Error(
+            "MONGO_URI belum diset"
+        );
+    }
+
+    try {
+
+        await mongoose.connect(
+            process.env.MONGO_URI,
+            {
+                serverSelectionTimeoutMS: 10000,
+                maxPoolSize: 10,
+                minPoolSize: 0
+            }
+        );
+
+        mongoConnected = true;
 
         console.log(
             "MongoDB berhasil terhubung"
         );
 
-    })
-    .catch((error) => {
+    } catch (error) {
 
-        console.log(
-            "MongoDB gagal terhubung"
+        mongoConnected = false;
+
+        console.error(
+            "MongoDB gagal terhubung:"
         );
 
-        console.log(
+        console.error(
             error.message
         );
 
-    });
-
+        throw error;
+    }
+}
 
 // =========================
-// JALANKAN SERVER
+// PASTIKAN MONGODB TERHUBUNG
 // =========================
 
-app.listen(
-    PORT,
-    () => {
+app.use(
+    async (req, res, next) => {
 
-        console.log(
-            `Server berjalan di http://localhost:${PORT}`
-        );
+        try {
 
+            await connectMongoDB();
+
+            next();
+
+        } catch (error) {
+
+            console.error(
+                "Database tidak tersedia:",
+                error.message
+            );
+
+            res.status(500).send(`
+                <h2>Database tidak tersedia</h2>
+
+                <p>
+                    KhasKU tidak dapat terhubung
+                    ke MongoDB.
+                </p>
+
+                <p>
+                    Silakan coba beberapa saat lagi.
+                </p>
+            `);
+        }
     }
 );
+
+// =========================
+// START SERVER
+// =========================
+
+if (require.main === module) {
+
+    app.listen(
+        PORT,
+        () => {
+
+            console.log(
+                `Server berjalan di http://localhost:${PORT}`
+            );
+
+        }
+    );
+
+}
+
+module.exports = app;
