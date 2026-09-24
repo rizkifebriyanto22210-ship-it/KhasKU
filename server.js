@@ -5,22 +5,45 @@ const dns = require("dns");
 const session = require("express-session");
 const { MongoStore } = require("connect-mongo");
 
-// Load .env
 dotenv.config();
 
-// ===============================
-// DNS MONGODB ATLAS
-// ===============================
-
+// DNS
 dns.setServers([
     "1.1.1.1",
     "8.8.8.8"
 ]);
 
 const app = express();
-
-// Vercel menggunakan PORT dari environment
 const PORT = process.env.PORT || 3000;
+
+// ===============================
+// MONGODB CONNECTION
+// ===============================
+
+let mongoPromise = null;
+
+async function connectMongoDB() {
+    if (mongoose.connection.readyState === 1) {
+        return;
+    }
+
+    if (!mongoPromise) {
+        mongoPromise = mongoose.connect(process.env.MONGO_URI, {
+            serverSelectionTimeoutMS: 10000,
+            family: 4
+        });
+    }
+
+    try {
+        await mongoPromise;
+        console.log("MongoDB berhasil terhubung");
+    } catch (error) {
+        mongoPromise = null;
+        console.log("MongoDB gagal terhubung");
+        console.log(error.message);
+        throw error;
+    }
+}
 
 // ===============================
 // MIDDLEWARE
@@ -29,8 +52,21 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Vercel berada di belakang proxy
 app.set("trust proxy", 1);
+
+// Pastikan MongoDB siap sebelum request diproses
+app.use(async (req, res, next) => {
+    try {
+        await connectMongoDB();
+        next();
+    } catch (error) {
+        console.log("Database belum siap:", error.message);
+
+        res.status(500).send(
+            "Database belum dapat terhubung. Silakan coba lagi."
+        );
+    }
+});
 
 // ===============================
 // SESSION
@@ -46,40 +82,31 @@ app.use(
 
         store: MongoStore.create({
             mongoUrl: process.env.MONGO_URI,
-
             collectionName: "sessions",
-
             ttl: 24 * 60 * 60
         }),
 
         cookie: {
             maxAge: 24 * 60 * 60 * 1000,
-
             httpOnly: true,
-
             secure: process.env.NODE_ENV === "production",
-
             sameSite: "lax"
         }
     })
 );
 
 // ===============================
-// FILE FRONTEND
+// FRONTEND
 // ===============================
 
 app.use(express.static("public"));
-
-// ===============================
-// HALAMAN UTAMA
-// ===============================
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/public/index.html");
 });
 
 // ===============================
-// ROUTES API
+// API ROUTES
 // ===============================
 
 app.use("/api/auth", require("./routers/auth"));
@@ -89,22 +116,6 @@ app.use("/api/riwayat", require("./routers/riwayat"));
 app.use("/api/anggota", require("./routers/anggota"));
 app.use("/api/akun", require("./routers/akun"));
 app.use("/api/iuran", require("./routers/iuran"));
-
-// ===============================
-// MONGODB
-// ===============================
-
-mongoose
-    .connect(process.env.MONGO_URI, {
-        serverSelectionTimeoutMS: 10000
-    })
-    .then(() => {
-        console.log("MongoDB berhasil terhubung");
-    })
-    .catch((error) => {
-        console.log("MongoDB gagal terhubung");
-        console.log(error.message);
-    });
 
 // ===============================
 // START SERVER
