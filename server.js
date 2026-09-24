@@ -1,243 +1,115 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const dns = require("dns");
 const session = require("express-session");
+const { MongoStore } = require("connect-mongo");
 
-// =========================
-// ENV
-// =========================
-
+// Load .env
 dotenv.config();
 
-// =========================
-// APP
-// =========================
+// ===============================
+// DNS MONGODB ATLAS
+// ===============================
+
+dns.setServers([
+    "1.1.1.1",
+    "8.8.8.8"
+]);
 
 const app = express();
 
+// Vercel menggunakan PORT dari environment
 const PORT = process.env.PORT || 3000;
 
-// =========================
+// ===============================
 // MIDDLEWARE
-// =========================
+// ===============================
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(
-    express.urlencoded({
-        extended: true
-    })
-);
+// Vercel berada di belakang proxy
+app.set("trust proxy", 1);
 
-// =========================
+// ===============================
 // SESSION
-// =========================
+// ===============================
 
 app.use(
     session({
-        secret: "khasKU-rahasia",
+        secret: process.env.SESSION_SECRET || "khasKU-rahasia",
+
         resave: false,
+
         saveUninitialized: false,
+
+        store: MongoStore.create({
+            mongoUrl: process.env.MONGO_URI,
+
+            collectionName: "sessions",
+
+            ttl: 24 * 60 * 60
+        }),
+
         cookie: {
-            secure: process.env.NODE_ENV === "production",
+            maxAge: 24 * 60 * 60 * 1000,
+
             httpOnly: true,
+
+            secure: process.env.NODE_ENV === "production",
+
             sameSite: "lax"
         }
     })
 );
 
-// =========================
-// STATIC FILE
-// =========================
+// ===============================
+// FILE FRONTEND
+// ===============================
 
-app.use(
-    express.static("public")
-);
+app.use(express.static("public"));
 
-// =========================
+// ===============================
 // HALAMAN UTAMA
-// =========================
+// ===============================
 
 app.get("/", (req, res) => {
-
-    res.sendFile(
-        __dirname + "/public/index.html"
-    );
-
+    res.sendFile(__dirname + "/public/index.html");
 });
 
-// =========================
-// ROUTER AUTH
-// =========================
+// ===============================
+// ROUTES API
+// ===============================
 
-app.use(
-    "/api/auth",
-    require("./routers/auth")
-);
+app.use("/api/auth", require("./routers/auth"));
+app.use("/api/pemasukan", require("./routers/pemasukan"));
+app.use("/api/pengeluaran", require("./routers/pengeluaran"));
+app.use("/api/riwayat", require("./routers/riwayat"));
+app.use("/api/anggota", require("./routers/anggota"));
+app.use("/api/akun", require("./routers/akun"));
+app.use("/api/iuran", require("./routers/iuran"));
 
-// =========================
-// ROUTER PEMASUKAN
-// =========================
+// ===============================
+// MONGODB
+// ===============================
 
-app.use(
-    "/api/pemasukan",
-    require("./routers/pemasukan")
-);
+mongoose
+    .connect(process.env.MONGO_URI, {
+        serverSelectionTimeoutMS: 10000
+    })
+    .then(() => {
+        console.log("MongoDB berhasil terhubung");
+    })
+    .catch((error) => {
+        console.log("MongoDB gagal terhubung");
+        console.log(error.message);
+    });
 
-// =========================
-// ROUTER PENGELUARAN
-// =========================
-
-app.use(
-    "/api/pengeluaran",
-    require("./routers/pengeluaran")
-);
-
-// =========================
-// ROUTER RIWAYAT
-// =========================
-
-app.use(
-    "/api/riwayat",
-    require("./routers/riwayat")
-);
-
-// =========================
-// ROUTER ANGGOTA
-// =========================
-
-app.use(
-    "/api/anggota",
-    require("./routers/anggota")
-);
-
-// =========================
-// ROUTER AKUN
-// =========================
-
-app.use(
-    "/api/akun",
-    require("./routers/akun")
-);
-
-// =========================
-// ROUTER IURAN
-// =========================
-
-app.use(
-    "/api/iuran",
-    require("./routers/iuran")
-);
-
-// =========================
-// MONGODB CONNECTION
-// =========================
-
-let mongoConnected = false;
-
-async function connectMongoDB() {
-
-    if (mongoConnected && mongoose.connection.readyState === 1) {
-        return;
-    }
-
-    if (!process.env.MONGO_URI) {
-
-        console.error(
-            "MONGO_URI tidak ditemukan!"
-        );
-
-        throw new Error(
-            "MONGO_URI belum diset"
-        );
-    }
-
-    try {
-
-        await mongoose.connect(
-            process.env.MONGO_URI,
-            {
-                serverSelectionTimeoutMS: 10000,
-                maxPoolSize: 10,
-                minPoolSize: 0
-            }
-        );
-
-        mongoConnected = true;
-
-        console.log(
-            "MongoDB berhasil terhubung"
-        );
-
-    } catch (error) {
-
-        mongoConnected = false;
-
-        console.error(
-            "MongoDB gagal terhubung:"
-        );
-
-        console.error(
-            error.message
-        );
-
-        throw error;
-    }
-}
-
-// =========================
-// PASTIKAN MONGODB TERHUBUNG
-// =========================
-
-app.use(
-    async (req, res, next) => {
-
-        try {
-
-            await connectMongoDB();
-
-            next();
-
-        } catch (error) {
-
-            console.error(
-                "Database tidak tersedia:",
-                error.message
-            );
-
-            res.status(500).send(`
-                <h2>Database tidak tersedia</h2>
-
-                <p>
-                    KhasKU tidak dapat terhubung
-                    ke MongoDB.
-                </p>
-
-                <p>
-                    Silakan coba beberapa saat lagi.
-                </p>
-            `);
-        }
-    }
-);
-
-// =========================
+// ===============================
 // START SERVER
-// =========================
+// ===============================
 
-if (require.main === module) {
-
-    app.listen(
-        PORT,
-        () => {
-
-            console.log(
-                `Server berjalan di http://localhost:${PORT}`
-            );
-
-        }
-    );
-
-}
-
-module.exports = app;
+app.listen(PORT, () => {
+    console.log(`Server berjalan di http://localhost:${PORT}`);
+});
